@@ -1,5 +1,5 @@
 import "../sass/style.scss";
 
-import {sayHello} from "./sum";
+import {sum} from "./sum";
 
-console.log(sayHello);
+console.log(sum(2023, 1));

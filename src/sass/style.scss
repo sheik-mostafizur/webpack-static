@@ -1,6 +1,9 @@
+@import "fonts";
+
 $body-bg: aliceblue;
 
 body {
+  font-family: "Roboto";
   background-color: $body-bg;
   h1 {
     font-size: 2rem;

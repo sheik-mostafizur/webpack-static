@@ -1,5 +1,5 @@
-function sayHello() {
-  console.log("Hello from file1!");
+function sum(a, b) {
+  return a + b;
 }
 
-export { sayHello };
+export {sum};

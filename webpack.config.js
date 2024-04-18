@@ -1,7 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const TerserPlugin = require('terser-webpack-plugin');
+const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
   mode: "production",
@@ -13,23 +13,27 @@ module.exports = {
     publicPath: "/",
   },
   optimization: {
-    minimize: true,  // Enable minimization
-    minimizer: [new TerserPlugin()],  // Use TerserPlugin for minification
+    minimize: true, // Enable minimization
+    minimizer: [new TerserPlugin()], // Use TerserPlugin for minification
   },
   module: {
     rules: [
+      // HTML
       {
         test: /\.html$/i,
         loader: "html-loader",
       },
+      // CSS
       {
         test: /\.css$/i,
         use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
+      // SCSS/SASS
       {
         test: /\.s[ac]ss$/i,
         use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
       },
+      // JavaScript
       {
         test: /\.(?:js|mjs|cjs)$/,
         exclude: /node_modules/,
@@ -39,6 +43,14 @@ module.exports = {
             presets: [["@babel/preset-env", {targets: "defaults"}]],
           },
         },
+      },
+      // Fonts
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: "asset/resource",
+        generator: {
+          filename: 'fonts/[name][ext]'
+        }
       },
     ],
   },
@@ -52,6 +64,6 @@ module.exports = {
     }),
   ],
   devServer: {
-    static: './dist',
-  }
+    static: "./dist",
+  },
 };
