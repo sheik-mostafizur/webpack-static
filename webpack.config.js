@@ -3,6 +3,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const autoprefixer = require("autoprefixer");
+const glob = require("glob");
+const {PurgeCSSPlugin} = require("purgecss-webpack-plugin");
 
 module.exports = {
   mode: "development", //production | development
@@ -24,6 +26,9 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: "styles.min.css",
       chunkFilename: "[id].css",
+    }),
+    new PurgeCSSPlugin({
+      paths: glob.sync(`${path.join(__dirname, "src")}/**/*`, {nodir: true}),
     }),
   ],
   devServer: {
