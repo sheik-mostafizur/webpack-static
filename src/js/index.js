@@ -1,4 +1,5 @@
-import "../sass/style.scss";
+import "../sass/styles.scss";
+import * as bootstrap from 'bootstrap'
 
 import {sum} from "./sum";
 

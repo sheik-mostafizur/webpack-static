@@ -2,6 +2,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
+const autoprefixer = require("autoprefixer");
 
 module.exports = {
   mode: "development", //production | development
@@ -15,6 +16,20 @@ module.exports = {
   optimization: {
     minimize: true, // Enable minimization
     minimizer: [new TerserPlugin()], // Use TerserPlugin for minification
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: "./src/index.html",
+    }),
+    new MiniCssExtractPlugin({
+      filename: "styles.min.css",
+      chunkFilename: "[id].css",
+    }),
+  ],
+  devServer: {
+    static: path.resolve(__dirname, "dist"),
+    port: 8080,
+    hot: true,
   },
   module: {
     rules: [
@@ -31,8 +46,22 @@ module.exports = {
       // SCSS/SASS
       {
         test: /\.s[ac]ss$/i,
-        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+        use: [
+          MiniCssExtractPlugin.loader,
+          "css-loader",
+          "sass-loader",
+          {
+            // Loader for webpack to process CSS with PostCSS
+            loader: "postcss-loader",
+            options: {
+              postcssOptions: {
+                plugins: [autoprefixer],
+              },
+            },
+          },
+        ],
       },
+
       // JavaScript
       {
         test: /\.(?:js|mjs|cjs)$/,
@@ -61,17 +90,5 @@ module.exports = {
         },
       },
     ],
-  },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: "./src/index.html",
-    }),
-    new MiniCssExtractPlugin({
-      filename: "style.min.css",
-      chunkFilename: "[id].css",
-    }),
-  ],
-  devServer: {
-    static: "./dist",
   },
 };
