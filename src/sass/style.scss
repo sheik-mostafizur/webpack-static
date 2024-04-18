@@ -1,0 +1,11 @@
+$body-bg: aliceblue;
+
+body {
+  background-color: $body-bg;
+  h1 {
+    font-size: 2rem;
+    background: #000;
+    color: white;
+    padding: 1rem;
+  }
+}
