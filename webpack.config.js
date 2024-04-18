@@ -1,15 +1,20 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
-  mode: "development",
+  mode: "production",
   entry: "./src/js/index.js",
   output: {
     path: path.resolve(__dirname, "./dist"),
-    filename: "index_bundle.js",
+    filename: "index.min.js",
     clean: true,
     publicPath: "/",
+  },
+  optimization: {
+    minimize: true,  // Enable minimization
+    minimizer: [new TerserPlugin()],  // Use TerserPlugin for minification
   },
   module: {
     rules: [
@@ -42,8 +47,11 @@ module.exports = {
       template: "./src/index.html",
     }),
     new MiniCssExtractPlugin({
-      filename: "[name].css",
+      filename: "style.min.css",
       chunkFilename: "[id].css",
     }),
   ],
+  devServer: {
+    static: './dist',
+  }
 };
